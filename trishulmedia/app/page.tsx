@@ -17,7 +17,7 @@ export default function Home() {
       <section className="mx-auto flex max-w-4xl flex-col gap-8">
         <div className="flex flex-col gap-4">
           <p className="text-sm font-semibold uppercase tracking-wide text-orange-600">
-            vinext + Cloudflare Workers
+            Trishul Media
           </p>
           <h1 className="max-w-2xl text-4xl font-semibold leading-tight sm:text-5xl">
             Build Next.js-style apps with Vite and deploy them to the edge.
