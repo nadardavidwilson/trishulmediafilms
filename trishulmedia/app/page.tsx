@@ -196,10 +196,10 @@ export default function Home() {
           </div>
         ) : null}
 
-        <section className="hero-video relative left-1/2 isolate -mt-10 flex min-h-[620px] w-screen -translate-x-1/2 items-end overflow-hidden rounded-none p-6 card-glass animate-fade-up md:min-h-[680px] md:p-10 lg:p-14">
+        <section className="hero-video relative left-1/2 isolate -mt-10 flex aspect-video min-h-0 w-screen -translate-x-1/2 items-end overflow-hidden rounded-none p-6 card-glass animate-fade-up md:aspect-auto md:min-h-[680px] md:p-10 lg:p-14">
           <video
             ref={videoRef}
-            className="absolute inset-0 z-0 h-full w-full object-cover"
+            className="absolute inset-0 z-0 h-full w-full bg-black object-contain md:object-cover"
             autoPlay
             loop
             muted={videoMuted}
