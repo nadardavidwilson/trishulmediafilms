@@ -94,7 +94,7 @@ export default function Home() {
       setVideoMuted(true);
       void video.play();
     });
-  }, []);
+  }, [videoMuted]);
 
   const mobileGalleryItem = useMemo(() => gallery[mobileGalleryIndex] ?? gallery[0], [mobileGalleryIndex]);
 
@@ -225,7 +225,7 @@ export default function Home() {
             onClick={toggleVideoSound}
             aria-label={videoMuted ? 'Turn video sound on' : 'Turn video sound off'}
             title={videoMuted ? 'Turn sound on' : 'Turn sound off'}
-            className="pointer-events-auto touch-manipulation absolute right-4 top-4 z-20 inline-flex h-9 items-center justify-center gap-2 rounded-full border border-white/50 bg-black/35 px-2.5 text-xs text-white transition hover:bg-black/60 sm:right-6 sm:top-6 sm:h-11 sm:px-3 sm:text-sm md:right-10 lg:right-14"
+            className="pointer-events-auto touch-manipulation absolute bottom-4 right-4 z-30 inline-flex h-10 items-center justify-center gap-2 rounded-full border border-white/50 bg-black/50 px-3 text-xs text-white transition hover:bg-black/70 sm:bottom-6 sm:right-6 sm:h-11 sm:px-3 sm:text-sm md:right-10 lg:right-14"
           >
             {videoMuted ? (
               <svg aria-hidden="true" className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
