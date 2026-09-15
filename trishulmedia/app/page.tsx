@@ -218,14 +218,14 @@ export default function Home() {
           >
             <source src="/GalleyVedio1.mp4" type="video/mp4" />
           </video>
-          <div className="absolute inset-0 z-10 bg-gradient-to-t from-black/80 via-black/35 to-black/10" aria-hidden="true" />
+          <div className="pointer-events-none absolute inset-0 z-10 bg-gradient-to-t from-black/80 via-black/35 to-black/10" aria-hidden="true" />
 
           <button
             type="button"
             onClick={toggleVideoSound}
             aria-label={videoMuted ? 'Turn video sound on' : 'Turn video sound off'}
             title={videoMuted ? 'Turn sound on' : 'Turn sound off'}
-            className="absolute right-4 top-4 z-20 inline-flex h-9 items-center justify-center gap-2 rounded-full border border-white/50 bg-black/35 px-2.5 text-xs text-white transition hover:bg-black/60 sm:right-6 sm:top-6 sm:h-11 sm:px-3 sm:text-sm md:right-10 lg:right-14"
+            className="pointer-events-auto touch-manipulation absolute right-4 top-4 z-20 inline-flex h-9 items-center justify-center gap-2 rounded-full border border-white/50 bg-black/35 px-2.5 text-xs text-white transition hover:bg-black/60 sm:right-6 sm:top-6 sm:h-11 sm:px-3 sm:text-sm md:right-10 lg:right-14"
           >
             {videoMuted ? (
               <svg aria-hidden="true" className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
