@@ -106,6 +106,15 @@ export default function Home() {
     setMobileGalleryIndex((current) => (current === gallery.length - 1 ? 0 : current + 1));
   };
 
+  const toggleVideoSound = () => {
+    const nextMuted = !videoMuted;
+    setVideoMuted(nextMuted);
+    if (videoRef.current) {
+      videoRef.current.muted = nextMuted;
+      if (!nextMuted) void videoRef.current.play();
+    }
+  };
+
   return (
     <main style={{ ['--brand' as any]: brand }} className="min-h-screen text-black">
       <section className="mx-auto flex max-w-7xl flex-col gap-10 px-6 pb-8 pt-0 sm:px-10 lg:px-12 lg:pb-10 lg:pt-0">
@@ -213,10 +222,10 @@ export default function Home() {
 
           <button
             type="button"
-            onClick={() => setVideoMuted((muted) => !muted)}
+            onClick={toggleVideoSound}
             aria-label={videoMuted ? 'Turn video sound on' : 'Turn video sound off'}
             title={videoMuted ? 'Turn sound on' : 'Turn sound off'}
-            className="absolute right-6 top-6 z-20 inline-flex h-11 items-center justify-center gap-2 rounded-full border border-white/50 bg-black/35 px-3 text-white transition hover:bg-black/60 md:right-10 lg:right-14"
+            className="absolute right-4 top-4 z-20 inline-flex h-9 items-center justify-center gap-2 rounded-full border border-white/50 bg-black/35 px-2.5 text-xs text-white transition hover:bg-black/60 sm:right-6 sm:top-6 sm:h-11 sm:px-3 sm:text-sm md:right-10 lg:right-14"
           >
             {videoMuted ? (
               <svg aria-hidden="true" className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -233,15 +242,15 @@ export default function Home() {
 
           <div className="relative z-20 flex w-full flex-col gap-6">
             <div>
-              <span className="inline-flex rounded-full border border-white/40 bg-black/25 px-3 py-1 text-sm font-medium text-white">
+              <span className="inline-flex rounded-full border border-white/40 bg-black/25 px-2.5 py-1 text-xs font-medium text-white sm:px-3 sm:text-sm">
                 Romantic • Cinematic • Timeless
               </span>
-              <h2 className="mt-4 max-w-2xl text-4xl font-semibold leading-tight text-white sm:text-5xl">
+              <h2 className="mt-3 max-w-2xl text-3xl font-semibold leading-tight text-white sm:mt-4 sm:text-5xl">
                 Turning milestones into timeless art.
               </h2>
             </div>
             <div className="flex flex-wrap gap-3">
-              <a href="#gallery" className="rounded-full px-5 py-3 text-sm font-semibold btn-brand">
+              <a href="#gallery" className="rounded-full px-4 py-2.5 text-xs font-semibold btn-brand sm:px-5 sm:py-3 sm:text-sm">
                 Explore Gallery
               </a>
             </div>
