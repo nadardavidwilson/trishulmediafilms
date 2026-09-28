@@ -7,18 +7,17 @@ import Testimonials from './components/Testimonials';
 type GalleryItem = {
   src: string;
   title: string;
-  location: string;
   caption: string;
 };
 
 // Images included in `public/` — add more filenames there to show them on the site.
 const gallery: GalleryItem[] = [
-  { src: '/GalleryImage1.jpg', title: 'Moment One', location: 'Mumbai', caption: 'A warm sunset frame full of emotion and motion.' },
-  { src: '/GalleryImage2.jpg', title: 'Moment Two', location: 'Goa', caption: 'Candid expressions, soft light and a relaxed coastal mood.' },
-  { src: '/GalleryImage3.jpg', title: 'Moment Three', location: 'Lonavala', caption: 'A cinematic portrait inspired by natural light and storytelling.' },
-  { src: '/GalleryImage4.jpg', title: 'Moment Four', location: 'Bengaluru', caption: 'A graceful portrait session with rich tones and natural elegance.' },
-  { src: '/GalleryImage5.webp', title: 'Moment Five', location: 'Pune', caption: 'A candid emotional detail that brings the entire story together.' },
-  { src: '/GalleryImage6.webp', title: 'Moment Six', location: 'Mahabaleshwar', caption: 'A dreamy final frame that completes the full love-story sequence.' },
+  { src: '/GalleryImage1.jpg', title: 'Moment One', caption: 'A warm sunset frame full of emotion and motion.' },
+  { src: '/GalleryImage2.jpg', title: 'Moment Two', caption: 'Candid expressions, soft light and a relaxed coastal mood.' },
+  { src: '/GalleryImage3.jpg', title: 'Moment Three', caption: 'A cinematic portrait inspired by natural light and storytelling.' },
+  { src: '/GalleryImage4.jpg', title: 'Moment Four', caption: 'A graceful portrait session with rich tones and natural elegance.' },
+  { src: '/GalleryImage5.webp', title: 'Moment Five', caption: 'A candid emotional detail that brings the entire story together.' },
+  { src: '/GalleryImage6.webp', title: 'Moment Six', caption: 'A dreamy final frame that completes the full love-story sequence.' },
 ];
 
 const pricingPlans = [
