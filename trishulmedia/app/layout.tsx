@@ -43,8 +43,8 @@ export const metadata: Metadata = {
   authors: [{ name: "Trishul Media & Films" }],
   creator: "Trishul Media & Films",
   icons: {
-    icon: [{ url: "/logo.jpg", type: "image/jpeg" }],
-    apple: [{ url: "/logo.jpg", type: "image/jpeg" }],
+    icon: [{ url: "/api/images/public-logo", type: "image/jpeg" }],
+    apple: [{ url: "/api/images/public-logo", type: "image/jpeg" }],
   },
   openGraph: {
     title: "Trishul Media & Films | Cinematic Photography",
@@ -52,14 +52,14 @@ export const metadata: Metadata = {
       "Cinematic pre-wedding, maternity and small event photography by Trishul Media & Films.",
     siteName: "Trishul Media & Films",
     type: "website",
-    images: [{ url: "/logo.jpg", width: 1080, height: 1080, alt: "Trishul Media & Films logo" }],
+    images: [{ url: "/api/images/public-logo", width: 1080, height: 1080, alt: "Trishul Media & Films logo" }],
   },
   twitter: {
     card: "summary",
     title: "Trishul Media & Films | Cinematic Photography",
     description:
       "Cinematic pre-wedding, maternity and small event photography by Trishul Media & Films.",
-    images: ["/logo.jpg"],
+    images: ["/api/images/public-logo"],
   },
 };
 
