@@ -1,25 +1,9 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import ContactForm from './components/ContactForm';
+import CoupleGallery from './components/CoupleGallery';
 import Testimonials from './components/Testimonials';
-
-type GalleryItem = {
-  src: string;
-  title: string;
-  caption: string;
-  category: 'Pre-wedding' | 'Portraits' | 'Details';
-};
-
-// Gallery images are served from the D1-backed image endpoint.
-const gallery: GalleryItem[] = [
-  { src: '/api/images/gallery-1', title: 'The golden hour', caption: 'A warm sunset frame full of emotion and motion.', category: 'Pre-wedding' },
-  { src: '/api/images/gallery-2', title: 'A quiet moment', caption: 'Candid expressions, soft light and a relaxed coastal mood.', category: 'Pre-wedding' },
-  { src: '/api/images/gallery-3', title: 'In the soft light', caption: 'A cinematic portrait inspired by natural light and storytelling.', category: 'Portraits' },
-  { src: '/api/images/gallery-4', title: 'Simply together', caption: 'A graceful portrait session with rich tones and natural elegance.', category: 'Portraits' },
-  { src: '/api/images/gallery-5', title: 'The little details', caption: 'A candid emotional detail that brings the entire story together.', category: 'Details' },
-  { src: '/api/images/gallery-6', title: 'A story to keep', caption: 'A dreamy final frame that completes the full love-story sequence.', category: 'Pre-wedding' },
-];
 
 const pricingPlans = [
   {
@@ -45,41 +29,9 @@ const pricingPlans = [
   },
 ];
 
-// Compute a brand color from the logo at runtime and expose as --brand CSS variable.
-function useBrandColorFromLogo(logoPath = '/api/images/public-logo') {
-  const [brand, setBrand] = useState('#b43');
-  useEffect(() => {
-    let mounted = true;
-    const img = new Image();
-    img.crossOrigin = 'anonymous';
-    img.src = logoPath + '?cachebust=' + Date.now();
-    img.onload = () => {
-      try {
-        const c = document.createElement('canvas');
-        c.width = 1;
-        c.height = 1;
-        const ctx = c.getContext('2d');
-        if (!ctx) return;
-        ctx.drawImage(img, 0, 0, 1, 1);
-        const d = ctx.getImageData(0, 0, 1, 1).data;
-        const hex = '#' + [d[0], d[1], d[2]].map((v) => v.toString(16).padStart(2, '0')).join('');
-        if (mounted) setBrand(hex);
-        document.documentElement.style.setProperty('--brand', hex);
-      } catch (e) {
-        // ignore — leave default
-      }
-    };
-    return () => {
-      mounted = false;
-    };
-  }, [logoPath]);
-  return brand;
-}
-
 export default function Home() {
-  const [selectedImage, setSelectedImage] = useState<GalleryItem | null>(null);
-  const [activeGalleryCategory, setActiveGalleryCategory] = useState<'All' | GalleryItem['category']>('All');
-  const brand = useBrandColorFromLogo('/api/images/public-logo');
+  const brand = '#b1552b';
+  const [logoFailed, setLogoFailed] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [videoMuted, setVideoMuted] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -96,32 +48,6 @@ export default function Home() {
     });
   }, [videoMuted]);
 
-  const visibleGallery = useMemo(
-    () => activeGalleryCategory === 'All' ? gallery : gallery.filter((item) => item.category === activeGalleryCategory),
-    [activeGalleryCategory],
-  );
-
-  const moveLightbox = (direction: -1 | 1) => {
-    setSelectedImage((current) => {
-      if (!current) return current;
-      const currentIndex = gallery.findIndex((item) => item.src === current.src);
-      return gallery[(currentIndex + direction + gallery.length) % gallery.length];
-    });
-  };
-
-  useEffect(() => {
-    if (!selectedImage) return;
-
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') setSelectedImage(null);
-      if (event.key === 'ArrowLeft') moveLightbox(-1);
-      if (event.key === 'ArrowRight') moveLightbox(1);
-    };
-
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [selectedImage]);
-
   const toggleVideoSound = () => {
     const nextMuted = !videoMuted;
     setVideoMuted(nextMuted);
@@ -136,7 +62,18 @@ export default function Home() {
       <section className="mx-auto flex max-w-7xl flex-col gap-10 px-6 pb-8 pt-0 sm:px-10 lg:px-12 lg:pb-10 lg:pt-0">
         <header className="relative left-1/2 flex w-screen -translate-x-1/2 flex-col items-start justify-between gap-4 rounded-none card-glass px-6 py-4 shadow-sm sm:flex-row sm:items-center sm:px-10 sm:py-3 lg:px-12">
           <div className="flex items-center gap-3 w-full sm:w-auto">
-            <img src="/api/images/public-logo" alt="Trishul Media & Films" className="h-12 w-12 sm:h-16 sm:w-16 rounded-full object-cover shadow" />
+            {logoFailed ? (
+              <span aria-label="Trishul Media & Films" className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-[#b1552b] text-xs font-semibold text-white shadow sm:h-16 sm:w-16 sm:text-sm">
+                TMF
+              </span>
+            ) : (
+              <img
+                src="/api/images/public-logo"
+                alt="Trishul Media & Films"
+                onError={() => setLogoFailed(true)}
+                className="h-12 w-12 shrink-0 rounded-full object-cover shadow sm:h-16 sm:w-16"
+              />
+            )}
             <div className="min-w-0">
               <p className="text-xs sm:text-sm uppercase tracking-[0.35em] truncate" style={{ color: 'var(--brand)' }}>Trishul Media & Films</p>
               <h1 className="text-sm sm:text-lg font-semibold text-black whitespace-normal">Capturing Pre-weddings, Maternity and Small Events</h1>
@@ -303,64 +240,7 @@ export default function Home() {
           </div>
         </section>
 
-        <section id="gallery" className="relative isolate space-y-8 overflow-hidden rounded-[2rem] bg-[#211714] px-5 py-8 text-white sm:px-8 sm:py-10 lg:px-10 lg:py-12">
-          <div className="pointer-events-none absolute -right-20 -top-24 -z-10 h-72 w-72 rounded-full bg-[var(--brand)] opacity-20 blur-3xl" />
-          <div className="flex flex-col justify-between gap-6 md:flex-row md:items-end">
-            <div className="max-w-2xl">
-              <p className="mb-3 flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.32em] text-[#e5bfa6]">
-                <span className="h-px w-8 bg-[#e5bfa6]" /> The visual journal
-              </p>
-              <h3 className="font-[var(--font-display)] text-4xl font-medium leading-tight text-white sm:text-5xl lg:text-6xl">
-                Moments made <span className="italic text-[#e5bfa6]">to stay.</span>
-              </h3>
-              <p className="mt-4 max-w-xl text-sm leading-7 text-white/65 sm:text-base">
-                A little collection of the real, fleeting, beautiful things that make every story yours.
-              </p>
-            </div>
-            <p className="shrink-0 text-xs uppercase tracking-[0.22em] text-white/55">{gallery.length.toString().padStart(2, '0')} frames and counting</p>
-          </div>
-
-          <div className="flex flex-wrap gap-2" aria-label="Filter gallery by category">
-            {(['All', 'Pre-wedding', 'Portraits', 'Details'] as const).map((category) => (
-              <button
-                key={category}
-                type="button"
-                onClick={() => setActiveGalleryCategory(category)}
-                aria-pressed={activeGalleryCategory === category}
-                className={`rounded-full border px-4 py-2 text-xs font-medium transition ${activeGalleryCategory === category ? 'border-[#e5bfa6] bg-[#e5bfa6] text-[#211714]' : 'border-white/20 text-white/75 hover:border-white/50 hover:text-white'}`}
-              >
-                {category}
-              </button>
-            ))}
-          </div>
-
-          <div className="grid auto-rows-[250px] grid-cols-1 gap-3 sm:grid-cols-2 sm:auto-rows-[230px] lg:grid-cols-12 lg:auto-rows-[190px] lg:gap-4">
-            {visibleGallery.map((item, index) => (
-              <button
-                key={item.src}
-                type="button"
-                onClick={() => setSelectedImage(item)}
-                aria-label={`View ${item.title}: ${item.caption}`}
-                className={`group relative isolate h-full overflow-hidden rounded-2xl bg-white/5 text-left ring-1 ring-white/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#e5bfa6] ${index === 0 ? 'sm:col-span-2 lg:col-span-7 lg:row-span-2' : index === 1 ? 'lg:col-span-5' : 'lg:col-span-4'}`}
-              >
-                <img src={item.src} alt={item.title} loading="lazy" className="absolute inset-0 h-full w-full object-cover transition duration-700 ease-out group-hover:scale-105" />
-                <span className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-black/5 transition duration-300 group-hover:from-black/90" />
-                <span className="absolute left-4 top-4 rounded-full border border-white/30 bg-black/20 px-3 py-1 text-[10px] font-medium uppercase tracking-[0.2em] text-white backdrop-blur-sm">
-                  {item.category}
-                </span>
-                <span className="absolute bottom-0 left-0 right-0 flex items-end justify-between gap-3 p-5 text-white sm:p-6">
-                  <span>
-                    <span className="block font-[var(--font-display)] text-2xl font-medium sm:text-3xl">{item.title}</span>
-                    <span className="mt-1 block max-w-lg text-xs leading-5 text-white/75 sm:text-sm">{item.caption}</span>
-                  </span>
-                  <span aria-hidden="true" className="mb-1 flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-white/50 text-lg transition group-hover:border-[#e5bfa6] group-hover:bg-[#e5bfa6] group-hover:text-[#211714]">↗</span>
-                </span>
-              </button>
-            ))}
-          </div>
-
-          <p className="text-center text-[10px] uppercase tracking-[0.22em] text-white/45">Tap a frame to step inside the story</p>
-        </section>
+        <CoupleGallery />
 
         <section id="pricing" className="rounded-[2rem] px-6 py-8 text-black card-glass md:px-8">
           <div className="mb-8 text-center">
@@ -446,31 +326,6 @@ export default function Home() {
         </section>
       </section>
 
-      {selectedImage ? (
-        <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 px-4 py-6 backdrop-blur-sm"
-          onClick={() => setSelectedImage(null)}
-        >
-          <div className="relative w-full max-w-5xl rounded-[2rem] card-glass p-3 shadow-2xl" onClick={(event) => event.stopPropagation()}>
-            <button
-              type="button"
-              onClick={() => setSelectedImage(null)}
-              aria-label="Close image viewer"
-              className="absolute right-4 top-4 z-10 rounded-full bg-black/60 px-4 py-2 text-sm font-semibold text-white shadow transition hover:bg-black/80"
-            >
-              Close
-            </button>
-            <img src={selectedImage.src} alt={selectedImage.title} className="max-h-[75vh] w-full rounded-[1.5rem] object-contain" />
-            <button type="button" onClick={() => moveLightbox(-1)} aria-label="Previous image" className="absolute left-5 top-1/2 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-black/60 text-2xl text-white shadow transition hover:bg-black/80">‹</button>
-            <button type="button" onClick={() => moveLightbox(1)} aria-label="Next image" className="absolute right-5 top-1/2 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-black/60 text-2xl text-white shadow transition hover:bg-black/80">›</button>
-            <div className="space-y-2 p-4">
-              <p className="text-sm uppercase tracking-[0.35em]" style={{ color: 'var(--brand)' }}>{selectedImage.category}</p>
-              <h4 className="text-2xl font-semibold text-black">{selectedImage.title}</h4>
-              <p className="text-sm leading-7 text-black">{selectedImage.caption}</p>
-            </div>
-          </div>
-        </div>
-      ) : null}
     </main>
   );
 }
