@@ -33,20 +33,16 @@ export default function Home() {
   const brand = '#b1552b';
   const [logoFailed, setLogoFailed] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
-  const [videoMuted, setVideoMuted] = useState(false);
+  const [videoMuted, setVideoMuted] = useState(true);
   const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
 
-    video.muted = false;
-    video.play().catch(() => {
-      video.muted = true;
-      setVideoMuted(true);
-      void video.play();
-    });
-  }, [videoMuted]);
+    video.muted = true;
+    void video.play().catch(() => {});
+  }, []);
 
   const toggleVideoSound = () => {
     const nextMuted = !videoMuted;
@@ -166,10 +162,10 @@ export default function Home() {
             loop
             muted={videoMuted}
             playsInline
-            preload="metadata"
+            preload="auto"
             aria-hidden="true"
           >
-            <source src="/api/images/public-video" type="video/mp4" />
+            <source src="/api/images/public-video?v=2" type="video/mp4" />
           </video>
           <div className="pointer-events-none absolute inset-0 z-10 bg-gradient-to-t from-black/80 via-black/35 to-black/10" aria-hidden="true" />
 

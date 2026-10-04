@@ -48,7 +48,7 @@ const coupleDefinitions: Couple[] = [
   {
     slug: 'couple-03',
     names: 'Naveen & Selvi',
-    location: 'Maternity & couple portraits',
+    location: 'Pre Wedding portraits',
     cover: '/gallery/couples/couple-03/images/Lane_1.webp',
     photos: [
       { src: '/gallery/couples/couple-03/images/beach_1.webp', alt: 'Expecting couple walking by the water', category: 'Pre-wedding' },
