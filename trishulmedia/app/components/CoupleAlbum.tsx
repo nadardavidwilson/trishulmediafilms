@@ -46,7 +46,7 @@ export default function CoupleAlbum({ couple }: { couple: Couple }) {
             <div className="grid auto-rows-[240px] grid-cols-2 gap-3 sm:auto-rows-[300px] sm:grid-cols-3 lg:grid-cols-4">
               {visiblePhotos.map((photo, index) => (
                 <div key={photo.src} className={`group relative overflow-hidden rounded-lg bg-[#eee3dc] ${index % 7 === 0 ? 'row-span-2' : ''}`}>
-                  <CoupleImage src={photo.src} alt={photo.alt} fallbackLabel="Photo" className="h-full w-full object-cover transition duration-500 group-hover:scale-[1.03]" />
+                  <CoupleImage src={photo.src} alt={photo.alt} fallbackLabel="Photo" loading={index === 0 ? 'eager' : 'lazy'} className="h-full w-full object-cover transition duration-500 group-hover:scale-[1.03]" />
                   <span className="absolute bottom-3 left-3 rounded-sm bg-black/55 px-2 py-1 text-[10px] uppercase tracking-[0.16em] text-white">{photo.category}</span>
                 </div>
               ))}

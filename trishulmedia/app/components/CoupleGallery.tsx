@@ -31,6 +31,7 @@ export default function CoupleGallery() {
               src={couple.cover}
               alt={`${couple.names} gallery cover`}
               fallbackLabel={`Story ${String(index + 1).padStart(2, '0')}`}
+              loading={index === 0 ? 'eager' : 'lazy'}
               className="absolute inset-0 h-full w-full object-cover transition duration-700 ease-out group-hover:scale-105"
             />
             <span className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/10 to-black/5" aria-hidden="true" />
