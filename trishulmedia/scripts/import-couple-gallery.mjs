@@ -11,6 +11,7 @@ const tempDir = await mkdtemp(join(tmpdir(), 'trishul-couple-gallery-'));
 const localDatabase = process.argv.includes('--local');
 const databaseLocationArgs = localDatabase
   ? [
+    '--local',
     '--config',
     join(projectRoot, 'wrangler.jsonc'),
     '--persist-to',

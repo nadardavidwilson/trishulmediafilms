@@ -1,17 +1,48 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import Image from 'next/image';
 
 type CoupleImageProps = {
   src: string;
   alt: string;
   fallbackLabel: string;
   className?: string;
+  sizes: string;
   loading?: 'eager' | 'lazy';
 };
 
-export default function CoupleImage({ src, alt, fallbackLabel, className = '', loading = 'lazy' }: CoupleImageProps) {
+export default function CoupleImage({ src, alt, fallbackLabel, className = '', sizes, loading = 'lazy' }: CoupleImageProps) {
   const [status, setStatus] = useState<'loading' | 'loaded' | 'failed'>('loading');
+  const imageRef = useRef<HTMLImageElement>(null);
+
+  useEffect(() => {
+    const image = imageRef.current;
+    if (!image) return;
+
+    if (image.complete) {
+      setStatus(image.naturalWidth > 0 ? 'loaded' : 'failed');
+      return;
+    }
+
+    if (loading === 'eager' || !('IntersectionObserver' in window)) {
+      image.loading = 'eager';
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          image.loading = 'eager';
+          observer.disconnect();
+        }
+      },
+      { rootMargin: '1600px 0px' },
+    );
+    observer.observe(image);
+
+    return () => observer.disconnect();
+  }, [loading, src]);
 
   if (status === 'failed') {
     return (
@@ -29,14 +60,17 @@ export default function CoupleImage({ src, alt, fallbackLabel, className = '', l
           aria-hidden="true"
         />
       ) : null}
-      <img
+      <Image
+        ref={imageRef}
         src={src}
         alt={alt}
+        fill
+        sizes={sizes}
         onLoad={() => setStatus('loaded')}
         onError={() => setStatus('failed')}
         className={className}
         loading={loading}
-        decoding="async"
+        quality={80}
       />
     </>
   );
