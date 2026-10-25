@@ -31,7 +31,6 @@ export default function CoupleGallery() {
               src={couple.cover}
               alt={`${couple.names} gallery cover`}
               fallbackLabel={`Story ${String(index + 1).padStart(2, '0')}`}
-              sizes="(max-width: 640px) calc(100vw - 2.5rem), (max-width: 1024px) calc((100vw - 3rem) / 2), 33vw"
               loading={index === 0 ? 'eager' : 'lazy'}
               className="absolute inset-0 h-full w-full object-cover transition duration-700 ease-out group-hover:scale-105"
             />
