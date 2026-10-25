@@ -296,8 +296,8 @@ export default function Home() {
               <p className="text-sm uppercase tracking-[0.35em]" style={{ color: 'var(--brand)' }}>Contact</p>
               <h3 className="text-3xl font-semibold">Ready for a shoot that feels effortlessly yours?</h3>
             </div>
-            <a href="mailto:hello@trishul_gmg.com" className="rounded-full px-5 py-3 text-sm font-semibold btn-brand">
-              hello@trishul_gmg.com
+            <a href="mailto:Trishulmediafilms@gmail.com" className="rounded-full px-5 py-3 text-sm font-semibold btn-brand">
+              Trishulmediafilms@gmail.com
             </a>
           </div>
         </section>
@@ -318,7 +318,7 @@ export default function Home() {
         <section className="mt-8 rounded-[2rem] p-8 card-glass text-center">
           <p className="text-sm uppercase tracking-[0.35em]" style={{ color: 'var(--brand)' }}>Let’s Plan Yours</p>
           <h3 className="text-2xl font-semibold mt-2">Start your pre-wedding or event with us</h3>
-          <a href="mailto:hello@trishul_gmg.com" className="mt-5 inline-block btn-brand">Reserve a Session</a>
+          <a href="mailto:Trishulmediafilms@gmail.com" className="mt-5 inline-block btn-brand">Reserve a Session</a>
         </section>
       </section>
 
